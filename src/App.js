@@ -8,7 +8,6 @@ import {
   BrowserRouter as Router,
   Routes,
   Route,
-  Link
 } from "react-router-dom";
 
 
@@ -28,8 +27,21 @@ function App() {
      setAlert(null)
     },2000)
   }
+   const toggleRemovepalleteCls=()=>{
+       document.body.classList.remove('bg-primary');
+       document.body.classList.remove('bg-success');
+       document.body.classList.remove('bg-danger');
+       document.body.classList.remove('bg-warning');
+   }
 
-  const toggleMode=()=>{
+  const toggleMode=(cls)=>{
+    toggleRemovepalleteCls();
+
+    if(cls!==null){
+    document.body.classList.add('bg-'+cls);
+  }
+
+    else{
     if(mode==='light'){
       setMode('dark')
       document.body.style.backgroundColor="#343a40";
@@ -46,21 +58,20 @@ function App() {
 
     }
   }
+  }
 
   return (
     <>
     <Router>
       <Navbar title="TextUtils" abouttext="About Us ('-')" mode={mode} toggleMode={toggleMode}  />
       <Alert alert={alert}/>
-      <div className="container my-3">
 
+      <div className="container my-3">
       {/* ------------------------Router Setup------------------ */}
       <Routes>
-          <Route exact path="/" element={<TextForm showAlert={showAlert} heading="Text Analyzer" mode={mode}/>}>  
-          </Route>        
-          <Route exact path="/AboutUs" element={<AboutUs />} >  
-          </Route>        
-      </Routes>
+          <Route exact path="/" element={ <TextForm showAlert={showAlert} heading="Text Analyzer" mode={mode}/>}/>    
+          <Route exact path="/AboutUs" element={ <AboutUs mode={mode}/>}/>
+     </Routes> 
     </div>  
     </Router>
     </>
